@@ -38,7 +38,7 @@
   <h3 align="center">T-Motor Controller</h3>
 
   <p align="center">
-    A fast, easy, and user friendly way to control robotics actuators. 
+    A Fast, Easy, and User Friendly way to control Robotics Actuators. 
     <br />
     <br />
     <a href="https://github.com/SeifAbdElrhman/T-Motor-Controller">View Demo</a>
@@ -90,9 +90,9 @@ The Web app connects to the motor through A web Socket to a local or remote serv
 
 ### Built With
 
-* [](Python)
-* [](Html)
-* [](Css)
+* [Python]()
+* [Html]()
+* [Css]()
 
 
 
@@ -160,6 +160,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 Seif Farag - [@twitter_handle](https://twitter.com/twitter_handle) - S.farag@innopolis.university
+<br />
 Nabila Adawy - [@twitter_handle](https://twitter.com/twitter_handle) - N.roshdy@innopolis.university
 
 Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://github.com/SeifAbdElrhman/T-Motor-Controller)
@@ -169,9 +170,8 @@ Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://git
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
+* Simeon Nedelchev for his amazing control Library -[rPyControl](https://github.com/SimkaNed/rPyControl)
+* The Best ReadMe template byt - [othneildrew ](https://github.com/othneildrew/Best-README-Template)
 
 
 
