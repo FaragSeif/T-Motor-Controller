@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 This project provides an easy to use GUI for control of the T-Motor brand Robotic Actuators with Real-time Plotting and close to Real-time Control.
 The Web app connects to the motor through A web Socket to a local or remote server then connects to the motor over CAN bus using rPyControl.
