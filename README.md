@@ -168,9 +168,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Seif Farag - [@twitter_handle](https://twitter.com/twitter_handle) - S.farag@innopolis.university
+Seif Farag - [@FaragSeif](https://t.me/FaragSeif) - S.farag@innopolis.university
 <br />
-Nabila Adawy - [@twitter_handle](https://twitter.com/twitter_handle) - N.roshdy@innopolis.university
+Nabila Adawy - [@NabilaAdawy](https://t.me/NabilaAdawy) - N.roshdy@innopolis.university
 
 Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://github.com/SeifAbdElrhman/T-Motor-Controller)
 
@@ -179,8 +179,8 @@ Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://git
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* Simeon Nedelchev for his amazing control Library -[rPyControl](https://github.com/SimkaNed/rPyControl)
-* The Best ReadMe template byt - [othneildrew ](https://github.com/othneildrew/Best-README-Template)
+* Simeon Nedelchev for his amazing control Library - [rPyControl](https://github.com/SimkaNed/rPyControl)
+* The Best ReadMe template by - [othneildrew ](https://github.com/othneildrew/Best-README-Template)
 
 
 
