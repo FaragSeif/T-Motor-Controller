@@ -1,7 +1,7 @@
 from CANSocket import CANDevice
 
 
-class TMotorQDD():
+class TMotorQDD:
     # TODO:
     # add tx_message dict
     # add rx_message dict
@@ -51,8 +51,7 @@ class TMotorQDD():
         self.zero_state = dict(zip(self.state_send, [0.0, 0.0, 0.0, 0.0, 0.0]))
         self.zero_state_bytes = self.state_to_bytes(self.zero_state)
         self.states_recv = ["pos", "vel", "tor"]
-        self.state_recv_bytes = dict(
-            zip(self.states_recv, [b"\x00", b"\x00", b"\x00"]))
+        self.state_recv_bytes = dict(zip(self.states_recv, [b"\x00", b"\x00", b"\x00"]))
         self.state_recv_ints = dict(zip(self.states_recv, [0, 0, 0]))
         self.state = dict(zip(self.states_recv, [0.0, 0.0, 0.0]))
 
@@ -86,12 +85,10 @@ class TMotorQDD():
             self.des_state_int["pos"] >> 8,
             self.des_state_int["pos"] & 0xFF,
             self.des_state_int["vel"] >> 4,
-            ((self.des_state_int["vel"] & 0xF) << 4) | (
-                self.des_state_int["kp"] >> 8),
+            ((self.des_state_int["vel"] & 0xF) << 4) | (self.des_state_int["kp"] >> 8),
             self.des_state_int["kp"] & 0xFF,
             self.des_state_int["kd"] >> 4,
-            ((self.des_state_int["kd"] & 0xF) << 4) | (
-                self.des_state_int["tor"] >> 8),
+            ((self.des_state_int["kd"] & 0xF) << 4) | (self.des_state_int["tor"] >> 8),
             self.des_state_int["tor"] & 0xFF,
         ]
 
@@ -99,8 +96,7 @@ class TMotorQDD():
 
     def bytes_to_state(self, recived_bytes):
         if recived_bytes:
-            self.state_recv_bytes["pos"] = (
-                recived_bytes[1] << 8) | recived_bytes[2]
+            self.state_recv_bytes["pos"] = (recived_bytes[1] << 8) | recived_bytes[2]
             self.state_recv_bytes["vel"] = (recived_bytes[3] << 4) | (
                 recived_bytes[4] >> 4
             )
