@@ -19,6 +19,7 @@ class SocketFrameHandler:
         can_id, can_dlc, data = struct.unpack(self.frame_format, frame)
         return (can_id, can_dlc, data[:can_dlc])
 
+
 class CANSocket:
     def __init__(
         self,
