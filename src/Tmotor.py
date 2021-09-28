@@ -39,6 +39,21 @@ class TMotor(ABC):
     pass
 
 
+class MotorDataUtility:
+
+    def float_to_uint(
+        self, data_float: float, data_min: float, data_max: float, bits: int
+    ) -> int:
+        span = data_max - data_min
+        return int((data_float - data_min) * (float((1 << bits) - 1)) / span)
+
+    def uint_to_float(
+        self, data_int: int, data_min: int, data_max: int, bits: int
+    ) -> float:
+        span = data_max - data_min
+        return float(data_int) * span / float((1 << bits) - 1) + data_min
+
+
 class TMotorQDD(TMotor):
     # TODO:
     # add tx_message dict
@@ -50,6 +65,7 @@ class TMotorQDD(TMotor):
             raise TypeError("can_socket is not an instance of CANSocket")
 
         self.setup_communication(can_socket)
+        self.data_utility = MotorDataUtility()
 
         # TODO: Implement motoring name addressing
         self.name = None
@@ -90,18 +106,6 @@ class TMotorQDD(TMotor):
 
     def __del__(self):
         print("Motor object was destructed")
-
-    def float_to_uint(
-        self, data_float: float, data_min: float, data_max: float, bits: int
-    ) -> int:
-        span = data_max - data_min
-        return int((data_float - data_min) * (float((1 << bits) - 1)) / span)
-
-    def uint_to_float(
-        self, data_int: int, data_min: int, data_max: int, bits: int
-    ) -> float:
-        span = data_max - data_min
-        return float(data_int) * span / float((1 << bits) - 1) + data_min
 
     def state_to_bytes(self, state_dict):
         for state_label in self.state_send:
