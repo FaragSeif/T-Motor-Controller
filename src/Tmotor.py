@@ -146,12 +146,6 @@ class TMotorQDD(TMotor):
         }
         self.torque_limit = 1
 
-    # here we can use an instance of CANSocket
-    # insted of making this assignment
-    def setup_communication(self, can_bus):
-        self.transmitter = can_bus.send_bytes
-        self.reciever = can_bus.recive_frame
-
     def __del__(self):
         print("Motor object was destructed")
 
@@ -189,7 +183,7 @@ class TMotorQDD(TMotor):
         self.can_bus.send_bytes(self.device_id, command)
 
     def recive_reply(self):
-        _, _, self.reply = self.reciever()
+        _, _, self.reply = self.can_bus.recive_frame()
         return self.reply
 
     def enable(self):
