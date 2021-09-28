@@ -1,8 +1,6 @@
 import socket
 import struct
 import os
-from multiprocessing import Process, Value, Array, Lock
-from time import perf_counter
 
 # TODO:
 # Add support of python-can lib
@@ -18,9 +16,7 @@ class CANSocket:
         bitrate=1000000,
         reset=True,
     ):
-
         self.frame_format = "=IB3x8s"
-        self.frame = 0
         self.interface = interface
         self.bitrate = bitrate
         self.devices_reply = dict()
@@ -57,7 +53,7 @@ class CANSocket:
 
     def can_set(self):
         os.system(f"sudo ip link set {self.interface} type can bitrate {self.bitrate}")
-        print(f"CAN interface <{self.interface}> is setted on {self.bitrate} bps")
+        print(f"CAN interface <{self.interface}> is set on {self.bitrate} bps")
 
     def can_down(self):
         os.system(f"sudo ifconfig {self.interface} down")
@@ -72,7 +68,7 @@ class CANSocket:
         self.can_down()
         self.can_set()
         self.can_up()
-        print(f"CAN interface <{self.interface}> was reseted")
+        print(f"CAN interface <{self.interface}> was reset")
 
     def build_can_frame(self, can_id, data):
         can_dlc = len(data)
@@ -84,8 +80,8 @@ class CANSocket:
         return (can_id, can_dlc, data[:can_dlc])
 
     def send_bytes(self, can_id, bytes_to_send):
-        self.frame = self.build_can_frame(can_id, bytes_to_send)
-        self.socket.send(self.frame)
+        frame = self.build_can_frame(can_id, bytes_to_send)
+        self.socket.send(frame)
 
     def recive_frame(self):
         self.r_msg, _ = self.socket.recvfrom(16)
@@ -100,8 +96,3 @@ class CANSocket:
             self.devices_reply[device_id] = can_data
 
         return self.devices_reply
-
-    def send_recive_threads(self, messages):
-        # TODO: separate threads/processes for send and recive
-        # possibly separate hardware interfaces
-        pass
