@@ -6,6 +6,19 @@ import os
 # Add support of python-can lib
 
 
+class SocketFrameHandler:
+    def __init__(self, frame_format):
+        self.frame_format = frame_format
+
+    def build_can_frame(self, can_id, data):
+        can_dlc = len(data)
+        data = data.ljust(8, b"\x00")
+        return struct.pack(self.frame_format, can_id, can_dlc, data)
+
+    def parse_can_frame(self, frame):
+        can_id, can_dlc, data = struct.unpack(self.frame_format, frame)
+        return (can_id, can_dlc, data[:can_dlc])
+
 class CANSocket:
     def __init__(
         self,
@@ -16,7 +29,7 @@ class CANSocket:
         bitrate=1000000,
         reset=True,
     ):
-        self.frame_format = "=IB3x8s"
+        self.frame_handler = SocketFrameHandler("=IB3x8s")
         self.interface = interface
         self.bitrate = bitrate
         self.devices_reply = dict()
@@ -70,22 +83,13 @@ class CANSocket:
         self.can_up()
         print(f"CAN interface <{self.interface}> was reset")
 
-    def build_can_frame(self, can_id, data):
-        can_dlc = len(data)
-        data = data.ljust(8, b"\x00")
-        return struct.pack(self.frame_format, can_id, can_dlc, data)
-
-    def parse_can_frame(self, frame):
-        can_id, can_dlc, data = struct.unpack(self.frame_format, frame)
-        return (can_id, can_dlc, data[:can_dlc])
-
     def send_bytes(self, can_id, bytes_to_send):
-        frame = self.build_can_frame(can_id, bytes_to_send)
+        frame = self.frame_handler.build_can_frame(can_id, bytes_to_send)
         self.socket.send(frame)
 
     def recive_frame(self):
         self.r_msg, _ = self.socket.recvfrom(16)
-        can_id, can_dlc, can_data = self.parse_can_frame(self.r_msg)
+        can_id, can_dlc, can_data = self.frame_handler.parse_can_frame(self.r_msg)
         return can_id, can_dlc, can_data
 
     def send_recv(self, messages):
