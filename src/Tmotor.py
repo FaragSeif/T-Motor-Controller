@@ -7,6 +7,16 @@ import builtins
 def clamp(value: float, min: float, max: float):
     return builtins.max(min, builtins.min(max, value))
 
+def float_to_uint( data_float: float, data_min: float, data_max: float, bits: int
+    ) -> int:
+        span = data_max - data_min
+        return int((data_float - data_min) * (float((1 << bits) - 1)) / span)
+
+def uint_to_float( data_int: int, data_min: int, data_max: int, bits: int
+    ) -> float:
+        span = data_max - data_min
+        return float(data_int) * span / float((1 << bits) - 1) + data_min
+
 
 # @dataclass
 class MotorState:
@@ -14,28 +24,44 @@ class MotorState:
 
     MIN_POSITION = -95.5
     MAX_POSITION = -95.5
+    POSITION_BITS = 16
     _position: float = 0
+    _position_uint: int = 0
     MIN_VELOCITY = -30.0
     MAX_VELOCITY = 30.0
-    velocity: float = 0
+    VELOCITY_BITS = 12
+    _velocity: float = 0
+    _velocity_uint: int = 0
     MIN_TORQUE = -18.0
     MAX_TORQUE = 18.0
-    torque: float = 0
+    TORQUE_BITS = 12
+    _torque: float = 0
+    _torque_uint: int = 0
 
     def __init__(self, position: float, velocity: float, torque: float) -> None:
         set_values(position, velocity, torque)
 
     def set_values(self, position: float, velocity: float, torque: float):
         """Sets the current state of the motor."""
-        self._position = clamp(
-            position, MotorState.MIN_POSITION, MotorState.MAX_POSITION
-        )
-        self.velocity = clamp(
-            velocity, MotorState.MIN_VELOCITY, MotorState.MAX_VELOCITY
-        )
-        self.torque = clamp(
-            torque, MotorState.MIN_TORQUE, MotorState.MAX_TORQUE
-        )
+        self._position = clamp(position, MotorState.MIN_POSITION, MotorState.MAX_POSITION)
+        self._position_uint = float_to_uint(self._position, self.MIN_POSITION, self.MAX_POSITION, self.POSITION_BITS)
+
+        self._velocity = clamp(velocity, MotorState.MIN_VELOCITY, MotorState.MAX_VELOCITY)
+        self._velocity_uint = float_to_uint(self._velocity, self.MIN_VELOCITY, self.MAX_VELOCITY, self.VELOCITY_BITS)
+
+        self._torque = clamp(torque, MotorState.MIN_TORQUE, MotorState.MAX_TORQUE)
+        self._torque_uint = float_to_uint(self._torque, self.MIN_TORQUE, self.MAX_TORQUE, self.TORQUE_BITS)
+
+    def set_unit_values(self, position: int, velocity: int, torque: int):
+        """Sets the current state of the motor from unsigned int."""
+        self._position_uint = position
+        self._position = uint_to_float(self._position_uint, self.MIN_POSITION, self.MAX_POSITION, self.POSITION_BITS)
+
+        self._velocity_uint = velocity
+        self._velocity = uint_to_float(self._velocity_uint, self.MIN_VELOCITY, self.MAX_VELOCITY, self.VELOCITY_BITS)
+
+        self._torque_uint = torque
+        self._torque = uint_to_float(self._torque_uint, self.MIN_TORQUE, self.MAX_TORQUE, self.TORQUE_BITS)
 
 
 @dataclass
@@ -44,22 +70,33 @@ class ControllerState:
 
     MIN_KP = 0.0
     MAX_KP = 500.0
-    _kp: float
+    KP_BITS = 12
+    _kp: float = 0
+    _kp_uint: int = 0
     MIN_KD = 0.0
     MAX_KD = 5.0
+    KD_BITS = 12
     _kd: float
+    _kd_uint: int = 0
 
     def __init__(self, kp: float, kd: float) -> None:
         set_values(kp, kd)
 
     def set_values(self, kp: float, kd: float):
         """Sets the current state of the controller."""
-        self._kp = clamp(
-            kp, MotorState.MIN_KP, MotorState.MAX_KP
-        )
-        self._kdd = clamp(
-            kd, MotorState.MIN_KD, MotorState.MAX_KD
-        )
+        self._kp = clamp(kp, self.MIN_KP, self.MAX_KP)
+        self._kp_uint = float_to_uint(self._kp, self.MIN_KP, self.MAX_KP, self.KP_BITS)
+
+        self._kd = clamp(kd, self.MIN_KD, self.MAX_KD)
+        self._kd_uint = float_to_uint(self._kd, self.MIN_KD, self.MAX_KD, self.KD_BITS)
+
+    def set_unit_values(self, kp: int, kd: int):
+        """Sets the current state of the controller from unsigned int."""
+        self._kp_uint = kp
+        self._kp = uint_to_float(self._kp_uint, self.MIN_KP, self.MAX_KP, self.KP_BITS)
+
+        self._kd_uint = kd
+        self._kd = uint_to_float(self._kd_uint, self.MIN_KD, self.MAX_KD, self.KD_BITS)
 
 
 class Frame:
@@ -72,18 +109,7 @@ class TMotor(ABC):
 
 
 class MotorDataUtility:
-
-    def float_to_uint(
-        self, data_float: float, data_min: float, data_max: float, bits: int
-    ) -> int:
-        span = data_max - data_min
-        return int((data_float - data_min) * (float((1 << bits) - 1)) / span)
-
-    def uint_to_float(
-        self, data_int: int, data_min: int, data_max: int, bits: int
-    ) -> float:
-        span = data_max - data_min
-        return float(data_int) * span / float((1 << bits) - 1) + data_min
+    pass
 
 
 class TMotorQDD(TMotor):
@@ -101,24 +127,14 @@ class TMotorQDD(TMotor):
 
         # TODO: Implement motoring name addressing
         self.name = None
+        
+        self.motor_state = MotorState(0, 0, 0)
+        self.controller_state = ControllerState(0,0)
 
-        self.state_send = ["pos", "vel", "kp", "kd", "tor"]
-        state_bounds = [
-            [-95.5, 95.5],
-            [-30.0, 30.0],
-            [0.0, 500.0],
-            [0.0, 5.0],
-            [-18.0, 18.0],
-        ]
-        self.state_bits = dict(zip(self.state_send, [16, 12, 12, 12, 12]))
-        self.des_state_int = dict(zip(self.state_send, [0, 0, 0, 0, 0]))
-        self.zero_state = dict(zip(self.state_send, [0.0, 0.0, 0.0, 0.0, 0.0]))
-        self.states_recv = ["pos", "vel", "tor"]
-        self.state_recv_bytes = dict(zip(self.states_recv, [b"\x00", b"\x00", b"\x00"]))
-        self.state = dict(zip(self.states_recv, [0.0, 0.0, 0.0]))  # MotorState()
+        self.zero_state_motor = MotorState(0, 0, 0)
+        self.zero_state_controller = ControllerState(0, 0)
 
-        self.bounds = dict(zip(self.state_send, state_bounds))
-        zero_state_bytes = self.state_to_bytes(self.zero_state)
+        zero_state_bytes = self.state_to_bytes(self.zero_state_motor, self.zero_state_controller)
         self.device_id = device_id
 
         self.COMMANDS = {
@@ -139,51 +155,31 @@ class TMotorQDD(TMotor):
     def __del__(self):
         print("Motor object was destructed")
 
-    def state_to_bytes(self, state_dict):
-        for state_label in self.state_send:
-            self.des_state_int[state_label] = self.float_to_uint(
-                state_dict[state_label],
-                self.bounds[state_label][0],
-                self.bounds[state_label][1],
-                self.state_bits[state_label],
-            )
-
+    def state_to_bytes(self, motor_state : MotorState, controller_state: ControllerState):
         state_bytes = [
-            self.des_state_int["pos"] >> 8,
-            self.des_state_int["pos"] & 0xFF,
-            self.des_state_int["vel"] >> 4,
-            ((self.des_state_int["vel"] & 0xF) << 4) | (self.des_state_int["kp"] >> 8),
-            self.des_state_int["kp"] & 0xFF,
-            self.des_state_int["kd"] >> 4,
-            ((self.des_state_int["kd"] & 0xF) << 4) | (self.des_state_int["tor"] >> 8),
-            self.des_state_int["tor"] & 0xFF,
+            motor_state._position_uint >> 8,
+            motor_state._position_uint & 0xFF,
+            motor_state._velocity_uint >> 4,
+            ((motor_state._velocity_uint & 0xF) << 4) | (controller_state._kp_uint >> 8),
+            controller_state._kp_uint & 0xFF,
+            controller_state._kd_uint>> 4,
+            ((controller_state._kd_uint & 0xF) << 4) | (motor_state._torque_uint >> 8),
+            motor_state._torque_uint & 0xFF,
         ]
 
         return bytearray(state_bytes)
 
-    def bytes_to_state(self, recived_bytes):
+    def bytes_to_state(self, recived_bytes, motor_state : MotorState):
         if recived_bytes:
-            self.state_recv_bytes["pos"] = (recived_bytes[1] << 8) | recived_bytes[2]
-            self.state_recv_bytes["vel"] = (recived_bytes[3] << 4) | (
+            position = (recived_bytes[1] << 8) | recived_bytes[2]
+            velocity = (recived_bytes[3] << 4) | (
                 recived_bytes[4] >> 4
             )
-            self.state_recv_bytes["tor"] = (
+            torque = (
                 (recived_bytes[4] & 0xF) << 8
             ) | recived_bytes[5]
-
-            # self.state.position = self.uint_to_float(
-            #     self.state_recv_bytes['position'],
-            #     self.bounds['position'][0],
-            #     self.bounds['position'][1],
-            #     self.state_bits['position'],
-            # )
-            for state_label in self.states_recv:
-                self.state[state_label] = self.uint_to_float(
-                    self.state_recv_bytes[state_label],
-                    self.bounds[state_label][0],
-                    self.bounds[state_label][1],
-                    self.state_bits[state_label],
-                )
+            
+            motor_state.set_unit_values(position, velocity, torque)
         else:
             pass
 
@@ -224,9 +220,8 @@ class TMotorQDD(TMotor):
         if torque < -self.torque_limit:
             torque = -self.torque_limit
 
-        state_data_dict = self.zero_state.copy()
-        state_data_dict["tor"] = torque
-        self.send_command(self.state_to_bytes(state_data_dict))
+        state_data_dict = MotorState(0, 0, torque)
+        self.send_command(self.state_to_bytes(state_data_dict, self.zero_state_controller))
         self.recive_reply()
         self.bytes_to_state(self.reply)
 
