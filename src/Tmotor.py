@@ -25,7 +25,7 @@ class MotorState:
     """Represents the current state of the motor."""
 
     MIN_POSITION = -95.5
-    MAX_POSITION = -95.5
+    MAX_POSITION = 95.5
     POSITION_BITS = 16
     _position: float = 0
     _position_uint: int = 0
