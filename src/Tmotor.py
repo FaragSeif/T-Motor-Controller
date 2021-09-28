@@ -26,6 +26,7 @@ class MotorState:
         set_values(position, velocity, torque)
 
     def set_values(self, position: float, velocity: float, torque: float):
+        """Sets the current state of the motor."""
         self._position = clamp(
             position, MotorState.MIN_POSITION, MotorState.MAX_POSITION
         )
@@ -39,8 +40,26 @@ class MotorState:
 
 @dataclass
 class ControllerState:
-    kp: float
-    kd: float
+    """Represents the current state of the controller."""
+
+    MIN_KP = 0.0
+    MAX_KP = 500.0
+    _kp: float
+    MIN_KD = 0.0
+    MAX_KD = 5.0
+    _kd: float
+
+    def __init__(self, kp: float, kd: float) -> None:
+        set_values(kp, kd)
+
+    def set_values(self, kp: float, kd: float):
+        """Sets the current state of the controller."""
+        self._kp = clamp(
+            kp, MotorState.MIN_KP, MotorState.MAX_KP
+        )
+        self._kdd = clamp(
+            kd, MotorState.MIN_KD, MotorState.MAX_KD
+        )
 
 
 class Frame:
