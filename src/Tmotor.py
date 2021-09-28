@@ -12,15 +12,28 @@ def clamp(value: float, min: float, max: float):
 class MotorState:
     """Represents the current state of the motor."""
 
-    MIN_POSITION = -18
-    MAX_POSITION = 18
-    # position: float = 0
-    # velocity: float = 0
-    # torque: float = 0
+    MIN_POSITION = -95.5
+    MAX_POSITION = -95.5
+    _position: float = 0
+    MIN_VELOCITY = -30.0
+    MAX_VELOCITY = 30.0
+    velocity: float = 0
+    MIN_TORQUE = -18.0
+    MAX_TORQUE = 18.0
+    torque: float = 0
 
-    def __init__(self, position: float) -> None:
-        self.position = clamp(
+    def __init__(self, position: float, velocity: float, torque: float) -> None:
+        set_values(position, velocity, torque)
+
+    def set_values(self, position: float, velocity: float, torque: float):
+        self._position = clamp(
             position, MotorState.MIN_POSITION, MotorState.MAX_POSITION
+        )
+        self.velocity = clamp(
+            velocity, MotorState.MIN_VELOCITY, MotorState.MAX_VELOCITY
+        )
+        self.torque = clamp(
+            torque, MotorState.MIN_TORQUE, MotorState.MAX_TORQUE
         )
 
 
