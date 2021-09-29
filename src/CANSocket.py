@@ -10,7 +10,6 @@ class SocketFrameHandler:
     def __init__(self, frame_format):
         self.frame_format = frame_format
 
-
     def pack_data_struct(self, can_id, data, can_data_len):
         return struct.pack(self.frame_format, can_id, can_data_len, data)
 
@@ -19,14 +18,13 @@ class SocketFrameHandler:
 
     def build_can_frame(self, can_id, data):
         can_data_len = len(data)
-        data = data.ljust(8, b"\x00") # TODO: explain what's happening here
+        data = data.ljust(8, b"\x00")  # TODO: explain what's happening here
         return self.pack_data_struct(can_id, data, can_data_len)
 
     def parse_can_frame(self, frame):
         can_id, can_data_len, data = self.unpack_data_struct(frame)
         first_n_elements = data[:can_data_len]
         return (can_id, can_data_len, first_n_elements)
-
 
 
 class CANSocket:
@@ -75,7 +73,9 @@ class CANSocket:
         )
 
     def set_can_interface(self):
-        execute_command(f"sudo ip link set {self.interface} type can bitrate {self.bitrate}")
+        execute_command(
+            f"sudo ip link set {self.interface} type can bitrate {self.bitrate}"
+        )
         print(f"CAN interface <{self.interface}> is set on {self.bitrate} bps")
 
     def down_can_interface(self):
