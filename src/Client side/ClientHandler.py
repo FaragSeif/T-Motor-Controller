@@ -3,7 +3,10 @@ import xmlrpc.client
 
 class ClientHandler:
     def __init__(self, ip, port):
-        self.server = xmlrpc.client.ServerProxy(f"http://{ip}:{port}")
+        try:
+            self.server = xmlrpc.client.ServerProxy(f"http://{ip}:{port}")
+        except ConnectionRefusedError:
+            print("Server offiline")
 
     def ping(self):
         self.server.ping()

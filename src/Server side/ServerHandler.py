@@ -46,9 +46,11 @@ def get_feedback():
     tmotor.bytes_to_state(reply, ms)
     return ms._position.toFloat(), ms._velocity.toFloat(), ms._torque.toFloat()
 
+
 def ping():
     print("I got pinged, damn it!")
     return 0
+
 
 def setup_server_functions(xmlrpc_server):
     xmlrpc_server.register_function(connect_to_motor, "connect_to_motor")
@@ -59,7 +61,7 @@ def setup_server_functions(xmlrpc_server):
 
 
 def run_server(server):
-    print(f'The server started at {server_ip}:{server_port}')
+    print(f"The server started at {server_ip}:{server_port}")
     try:
         while True:
             server.handle_request()
