@@ -47,10 +47,10 @@ class FloatInt:
 class MotorState:
     _position: FloatInt(0, -95.5, 95.5, 16)
     _velocity: FloatInt(0, -30.0, 30.0, 12)
-    _torque = FloatInt(0, 0, -18.0, 18.0, 12)
+    _torque = FloatInt(0, -18.0, 18.0, 12)
 
     def __init__(self, position: float, velocity: float, torque: float) -> None:
-        set_motor_state_values_by_floats(position, velocity, torque)
+        self.set_motor_state_values_by_floats(position, velocity, torque)
 
     def set_motor_state_values_by_floats(
         self, position: float, velocity: float, torque: float
@@ -72,7 +72,7 @@ class ControllerState:
     _kd = FloatInt(0, 0.0, 5.0, 12)
 
     def __init__(self, kp: float, kd: float) -> None:
-        set_controller_state_values_by_floats(kp, kd)
+        self.set_controller_state_values_by_floats(kp, kd)
 
     def set_controller_state_values_by_floats(self, kp: float, kd: float):
         self._kp.set_by_float(kp)
@@ -106,7 +106,7 @@ class TMotorQDD(TMotor):
         if not isinstance(can_socket, CANSocket):
             raise TypeError("can_socket is not an instance of CANSocket")
 
-        self.setup_communication(can_socket)
+        self.can_bus = can_socket
         self.data_utility = MotorDataUtility()
 
         # TODO: Implement motoring name addressing
@@ -139,15 +139,15 @@ class TMotorQDD(TMotor):
         self, motor_state: MotorState, controller_state: ControllerState
     ):
         state_bytes = [
-            motor_state._position_uint >> 8,
-            motor_state._position_uint & 0xFF,
-            motor_state._velocity_uint >> 4,
-            ((motor_state._velocity_uint & 0xF) << 4)
-            | (controller_state._kp_uint >> 8),
-            controller_state._kp_uint & 0xFF,
-            controller_state._kd_uint >> 4,
-            ((controller_state._kd_uint & 0xF) << 4) | (motor_state._torque_uint >> 8),
-            motor_state._torque_uint & 0xFF,
+            motor_state._position.toUInt >> 8,
+            motor_state._position.toUInt & 0xFF,
+            motor_state._velocity.toUInt >> 4,
+            ((motor_state._velocity.toUInt & 0xF) << 4)
+            | (controller_state._kp.toUInt >> 8),
+            controller_state._kp.toUInt & 0xFF,
+            controller_state._kd.toUInt >> 4,
+            ((controller_state._kp.toUInt & 0xF) << 4) | (motor_state._torque.toUInt >> 8),
+            motor_state._torque.toUInt & 0xFF,
         ]
 
         return bytearray(state_bytes)
@@ -204,13 +204,13 @@ class TMotorQDD(TMotor):
             self.state_to_bytes(state_data_dict, self.zero_state_controller)
         )
         self.recive_reply()
-        self.bytes_to_state(self.reply)
+        self.bytes_to_state(self.reply, self.motor_state)
 
     def set_torque_limit(self, torque_limit):
         self.torque_limit = torque_limit
         print(f"Torque limit is set to: {torque_limit}")
 
     def set_state(self, state_data_dict):
-        self.send_command(self.state_to_bytes(state_data_dict))
+        self.send_command(state_data_dict)
         self.recive_reply()
-        self.bytes_to_state(self.reply)
+        self.bytes_to_state(self.reply, self.motor_state)
