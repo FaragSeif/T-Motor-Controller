@@ -146,7 +146,8 @@ class TMotorQDD(TMotor):
             | (controller_state._kp.toUInt >> 8),
             controller_state._kp.toUInt & 0xFF,
             controller_state._kd.toUInt >> 4,
-            ((controller_state._kp.toUInt & 0xF) << 4) | (motor_state._torque.toUInt >> 8),
+            ((controller_state._kp.toUInt & 0xF) << 4)
+            | (motor_state._torque.toUInt >> 8),
             motor_state._torque.toUInt & 0xFF,
         ]
 
