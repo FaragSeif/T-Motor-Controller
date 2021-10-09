@@ -100,8 +100,8 @@ The GUI provides:
 ### Built With
 
 * [Python]()
-* [Html]()
-* [Css]()
+* [Streamlit]()
+* [xmlrpc]()
 
 
 
@@ -171,6 +171,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Seif Farag - [@FaragSeif](https://t.me/FaragSeif) - S.farag@innopolis.university
 <br />
 Nabila Adawy - [@NabilaAdawy](https://t.me/NabilaAdawy) - N.roshdy@innopolis.university
+<br />
+Sherif Nafee- [@Sh1co](https://t.me/Sh1co) - s.nafee@innopolis.university
 
 Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://github.com/SeifAbdElrhman/T-Motor-Controller)
 
