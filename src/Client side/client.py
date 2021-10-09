@@ -6,13 +6,14 @@ from ClientHandler import ClientHandler
 
 st.markdown("# T motor controller")
 
+ch = ClientHandler("127.0.0.1", 6969)
+
 inputColumn, outputColumn = st.columns(2)
 
 with inputColumn:
     selection = st.selectbox("Port name", ["Can0", "Can1", "Can2"])
     if st.button("Connect"):
-        st.write(selection)
-        # Add connection logic
+        ch.ping()
     st.text_input("Input")
     st.text_input("Kp")
     st.text_input("Kd")
