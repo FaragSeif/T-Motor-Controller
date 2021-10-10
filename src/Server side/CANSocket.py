@@ -18,7 +18,7 @@ class SocketFrameHandler:
 
     def build_can_frame(self, can_id, data):
         can_data_len = len(data)
-        data = data.ljust(8, b"\x00")  # TODO: explain what's happening here
+        data = data.ljust(8, b"\x00")
         return self.pack_data_struct(can_id, data, can_data_len)
 
     def parse_can_frame(self, frame):

@@ -18,7 +18,7 @@ def connect_to_motor(motor_port, device_id):
 
     socket = CANSocket(motor_port)
     tmotor = TMotorQDD(socket, device_id)
-    return 0
+    return 1
 
 
 def set_motor_state(desired_position, kp, kd):
@@ -28,7 +28,7 @@ def set_motor_state(desired_position, kp, kd):
     cs = ControllerState(kp, kd)
     command_bytes = tmotor.state_to_bytes(ms, cs)
     tmotor.set_state(command_bytes)
-    return 0
+    return get_feedback()
 
 
 def disconnect_motor():
@@ -48,8 +48,7 @@ def get_feedback():
 
 
 def ping():
-    print("I got pinged, damn it!")
-    return 0
+    return "Server pinged successfuly"
 
 
 def setup_server_functions(xmlrpc_server):

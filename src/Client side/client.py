@@ -1,25 +1,57 @@
+from numpy.random import poisson
 import streamlit as st
 import numpy as np
 import pandas as pd
+import xmlrpc.client
+from socket import gaierror
 from ClientHandler import ClientHandler
+from time import perf_counter
 
+ch = None
 
-st.markdown("# T motor controller")
+st.set_page_config(
+    page_title="T-motor Controller",
+    page_icon="./Images/T-motor controller-logos.jpeg",
+    layout="wide",
+    menu_items={
+        "Get Help": "https://github.com/SeifAbdElrhman/T-Motor-Controller/blob/main/README.md",
+        "Report a Bug": "https://github.com/SeifAbdElrhman/T-Motor-Controller/issues",
+        "About": "https://github.com/SeifAbdElrhman/T-Motor-Controller",
+    },
+)
 
-ch = ClientHandler("127.0.0.1", 6969)
+serverColumn, portColumn, _ = st.columns([1, 1, 6])
 
-inputColumn, outputColumn = st.columns(2)
+with portColumn:
+    port = st.text_input("Port Number")
+with serverColumn:
+    IP = st.text_input("Server IP")
+    pressed = st.button("Connect", key="Server Connect")
+    if pressed:
+        try:
+            ch = ClientHandler(IP, port)
+            st.write(ch.ping())
+        except ConnectionRefusedError:
+            st.write("Server offline")
+        except gaierror:
+            st.write("Add IP and Port")
+
+inputColumn, outputColumn = st.columns([1, 3])
 
 with inputColumn:
-    selection = st.selectbox("Port name", ["Can0", "Can1", "Can2"])
-    if st.button("Connect"):
-        ch.ping()
-    st.text_input("Input")
-    st.text_input("Kp")
-    st.text_input("Kd")
-    if st.button("Send"):
-        st.write(selection)
-        # Add connection logic
+    st.markdown("## T motor controller")
+    selection = st.selectbox("Motor Port name", ["Can0", "Can1", "Can2"])
+    pressed1 = st.button("Connect", key="Motor Connect")
+    if pressed1:
+        st.write("Motor Connected")
+    st.number_input("Input")
+    st.number_input("Kp")
+    st.number_input("Kd")
+    pressed2 = st.button("Send")
+    if pressed2:
+        st.write("Sending desired Position")
+        st.write("Recieving reply...")
+
 with outputColumn:
     placeholder_position_data = pd.DataFrame(
         0, index=np.arange(20), columns=["Position"]

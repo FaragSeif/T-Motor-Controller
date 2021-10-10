@@ -163,8 +163,6 @@ class TMotorQDD(TMotor):
         else:
             pass
 
-    # ============================================================================================
-    # maybe change this somehow to use CANSocket also
     def send_command(self, command):
         self.can_bus.send_bytes(self.device_id, command)
 
@@ -180,7 +178,6 @@ class TMotorQDD(TMotor):
         self.send_command(self.COMMANDS["mot_mode_off"])
         print("Motor mode disabled")
 
-    # Edit this function to be compatable with our Client-Server archeticture
     def set_zero(self):
         print(
             f'You are going to assign a new zero for motor with ID {self.device_id}, press "Y" to continue...\n'
@@ -191,8 +188,6 @@ class TMotorQDD(TMotor):
             print("New encoder zero is setted")
         else:
             print("Canceling...")
-
-    # =============================================================================================
 
     def set_torque(self, torque):
         if torque > self.torque_limit:
