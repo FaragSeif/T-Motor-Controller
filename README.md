@@ -95,7 +95,7 @@ Working with hardware is usually a very daunting task and it involves debugging 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The code is devided into two parts, the [Client](https://github.com/SeifAbdElrhman/T-Motor-Controller/tree/main/src/Client%20side) and the [Server](https://github.com/SeifAbdElrhman/T-Motor-Controller/tree/main/src/Server%20side) both are in the [Source folder](https://github.com/SeifAbdElrhman/T-Motor-Controller/tree/main/src), The Server side should be running on your desired remote (for example a raspberry pi) or local machine. and the client side can run from anywhere (even on windows).
+The Server side should be running on your desired remote (for example a raspberry pi) or local machine. and the client side can run from anywhere (even on windows).
 
 #### Install Prerequisites
 First you need to install Python 3.6 or higher, then you can install the requirements from the command below on both your remote and local machines.<br>
