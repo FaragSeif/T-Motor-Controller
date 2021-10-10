@@ -133,7 +133,28 @@ if you have a different directory structure provide your own path to the client.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Place Holder
+To use the interface you can easily
+* add IP and port of your server
+* connect to your CAN interface
+* send command to your motor
+* plots will be updated automatically
+
+A simple Gif of the operation steps is shown below, along with the photage of the physical motor (here the motor is attached to a manipulator to show the movement more clearly)
+
+https://user-images.githubusercontent.com/22743949/136715125-22eae7b2-9dc8-4ed4-b7b2-74ae6e831eff.mp4
+
+
+
+
+
+
+
+https://user-images.githubusercontent.com/22743949/136715398-778455e6-81c3-4042-b312-12342125113a.mp4
+
+
+
+
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
