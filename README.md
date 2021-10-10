@@ -1,39 +1,16 @@
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
-***
-***
-***
-*** To avoid retyping too much info. Do a search and replace for the following:
-*** , twitter_handle, email, project_title, project_description
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-<!-- [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
+[![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url] -->
+[![MIT License][license-shield]][license-url]
 
 
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-<!--   <a href="https://github.com/\/T-Motor-Controller">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
+   <a href="https://github.com/\/T-Motor-Controller">
+    <img src="Images/T-motor controller-logos.jpeg" alt="Logo" width="150" height="150">
+  </a>
 
   <h3 align="center">T-Motor Controller</h3>
 
@@ -64,8 +41,10 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#install-prerequisites">Install Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#server-initialization">Server Initialization</a></li>
+        <li><a href="#gui-initialization">GUI</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -84,52 +63,67 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-This project provides an easy to use GUI for control of the T-Motor brand Robotic Actuators with Real-time Plotting and close to Real-time Control.
-The Web app connects to the motor through A web Socket to a local or remote server then connects to the motor over CAN bus using rPyControl.
+This project provides an easy to use GUI to control the T-Motor brand Robotic Actuators (motors) with feedback Plotting and close to Real-time Control.
+The Web app uses a Remote Procedure Call module (RPC). This module connects to a server running on your local or remote linux machine. That machine is connected to the motor over CAN bus. For more explanation on the technical terms please read the [Glossary](documentation/glossary.md) or view the [Documentation](documentation/) to understand more about the architecture of the software.
 <br />
-<br />
-The GUI provides:
+#### The GUI provides:
 * Easy motor communication setup.
-* Manual desired position input
-* CSV desired position input (planned for future)
-* Easily stop motor operation
-* An Easy way to Visualize motor Angles, Velcities, and Torques
-* visualize Desired values for Angles, Velocities, and Torques
+* Easily stop motor operation.
+* Manual desired position input.
+* An Easy way to Visualize Motor Angles, Velocities, and Torques.
+* Visualize Desired values for Angles, Velocities, and Torques.
+* Save session plots as PNG for further analysis.
+* Set control parameters dynamically.
+* CSV desired position input (planned for future).
+
+#### Project Motivation
+Working with hardware is usually a very daunting task and it involves debugging both your software and hardware simultaneously, Roboticists usually have to spend a ton of time just to get the actuators to work which sometimes even include writing their own libraries for the actuators instead of focusing on the research at hand AFTER the motor starts working. This is what sparked the idea for this project, for now we will be working with the T-motor brand of motors only since they are quite popular in robotics. Future plans will include expanding to other models/brands and motor types. The end goal is to help Roboticists focus on what matters in their research.
+
 
 
 ### Built With
 
 * [Python]()
-* [Streamlit]()
-* [xmlrpc]()
+* [Streamlit](https://streamlit.io/)
+* [xmlrpc](https://docs.python.org/3/library/xmlrpc.html)
 
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Place Holder
+The code is devided into two parts, the [Client](https://github.com/SeifAbdElrhman/T-Motor-Controller/tree/main/src/Client%20side) and the [Server](https://github.com/SeifAbdElrhman/T-Motor-Controller/tree/main/src/Server%20side) both are in the [Source folder](https://github.com/SeifAbdElrhman/T-Motor-Controller/tree/main/src), The Server side should be running on your desired remote (for example a raspberry pi) or local machine. and the client side can run from anywhere (even on windows).
 
-### Prerequisites
-
-Place Holder
-* npm
+#### Install Prerequisites
+First you need to install Python 3.6 or higher, then you can install the requirements from the command below on both your remote and local machines.<br>
+*the command should run in the same folder as the requirements.txt file, otherwise provide file path*
+*(i.e. "path/to/file/requirements.txt")*<br/>
   ```sh
-  pip install PlaceHolder
+  pip install -r requirements.txt
   ```
 
-### Installation
+#### Installation
 
-1. Clone the repo
+Clone the repo from the terminal if you have git, or simply click the "download ZIP" from github.
    ```sh
    git clone https://github.com/SeifAbdElrhman/T-Motor-Controller.git
    ```
-2. Install NPM packages
+#### Server Initialization
+
+Copy the Server side folder to your desired remote (or local) machine, and run the ServerHandler.py file using the following command.
    ```sh
-   pip install PlaceHolder
+   python ./ServerHandler.py <ip_address> <port#>
    ```
+   Don't forget to substitue "<ip_address>" and "<port#>" with your actual IP and Port for the remote machine (for local machine you can use "127.0.0.1" without quotes as the IP)
+   
 
-
+#### GUI Initialization 
+Now you can run the client.py file on your client machine (this machine doesn't have to be linux) with the following command.
+```sh
+streamlit run client.py
+```
+if your terminal is open on the full project folder please provide the path as "./src/Clien\ side/client.py".
+if you have a different directory structure provide your own path to the client.py file.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -140,15 +134,14 @@ Place Holder
 
 <!-- ROADMAP -->
 ## Roadmap
-
-Place Holder
+Currently we are working on multiple variants of a specific model of T-motors (the QDD AK80-6T, AK80-9T, AK45, and the AK30). Later we will expand to more models of T-motor. and Eventually fork to other brands.
 
 
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated** and will boost the development of the Robotics community.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -156,6 +149,7 @@ Contributions are what make the open source community such an amazing place to l
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+For any bugs, issues, additional features, please open an [issue](https://github.com/SeifAbdElrhman/T-Motor-Controller/issues) on github with a detailed description and a proper Tag. Or feel free to [contact](#contact) the developers of the project directly
 
 
 <!-- LICENSE -->
@@ -168,9 +162,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Seif Farag - [@FaragSeif](https://t.me/FaragSeif) - S.farag@innopolis.university
+Seif Farag - [@FaragSeif](https://t.me/FaragSeif) - s.farag@innopolis.university
 <br />
-Nabila Adawy - [@NabilaAdawy](https://t.me/NabilaAdawy) - N.roshdy@innopolis.university
+Nabila Adawy - [@NabilaAdawy](https://t.me/NabilaAdawy) - n.roshdy@innopolis.university
 <br />
 Sherif Nafee- [@Sh1co](https://t.me/Sh1co) - s.nafee@innopolis.university
 
@@ -181,8 +175,7 @@ Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://git
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* Simeon Nedelchev for his amazing control Library - [rPyControl](https://github.com/SimkaNed/rPyControl)
-* The Best ReadMe template by - [othneildrew ](https://github.com/othneildrew/Best-README-Template)
+* Thanks to Simeon Nedelchev for his amazing control Library - [rPyControl](https://github.com/SimkaNed/rPyControl)
 
 
 
@@ -192,13 +185,9 @@ Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://git
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/SeifAbdElrhman/repo.svg?style=for-the-badge
 [contributors-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/SeifAbdElrhman/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/network/members
 [stars-shield]: https://img.shields.io/github/stars/SeifAbdElrhman/repo.svg?style=for-the-badge
 [stars-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/stargazers
 [issues-shield]: https://img.shields.io/github/issues/SeifAbdElrhman/repo.svg?style=for-the-badge
 [issues-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/issues
 [license-shield]: https://img.shields.io/github/license/SeifAbdElrhman/repo.svg?style=for-the-badge
 [license-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/SeifAbdElrhman
