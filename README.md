@@ -1,9 +1,9 @@
 <div id="top"></div>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![GitHub issues](https://img.shields.io/github/issues/SeifAbdElrhman/T-Motor-Controller)](https://gitHub.com/SeifAbdElrhman/T-Motor-Controller/issues/)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/SeifAbdElrhman/T-Motor-Controller)](https://gitHub.com/SeifAbdElrhman/T-Motor-Controller/pulls/)
+[![GitHub stars](https://img.shields.io/github/stars/SeifAbdElrhman/T-Motor-Controller)](https://github.com/SeifAbdElrhman/T-Motor-Controller/stargazers)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/SeifAbdElrhman/T-Motor-Controller/blob/main/LICENSE)
 
 
 
@@ -184,16 +184,3 @@ Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://git
 * Thanks to Simeon Nedelchev for his amazing control Library - [rPyControl](https://github.com/SimkaNed/rPyControl)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
-[contributors-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/graphs/contributors
-[stars-shield]: https://img.shields.io/github/stars/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
-[stars-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/stargazers
-[issues-shield]: https://img.shields.io/github/issues/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
-[issues-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/issues
-[license-shield]: https://img.shields.io/github/license/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
-[license-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/blob/master/LICENSE.txt
