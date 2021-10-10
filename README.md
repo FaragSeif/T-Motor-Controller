@@ -1,3 +1,5 @@
+<div id="top"></div>
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
@@ -87,6 +89,7 @@ Working with hardware is usually a very daunting task and it involves debugging 
 * [Streamlit](https://streamlit.io/)
 * [xmlrpc](https://docs.python.org/3/library/xmlrpc.html)
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 <!-- GETTING STARTED -->
@@ -125,18 +128,20 @@ streamlit run client.py
 if your terminal is open on the full project folder please provide the path as "./src/Clien\ side/client.py".
 if you have a different directory structure provide your own path to the client.py file.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
 Place Holder
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 ## Roadmap
 Currently we are working on multiple variants of a specific model of T-motors (the QDD AK80-6T, AK80-9T, AK45, and the AK30). Later we will expand to more models of T-motor. and Eventually fork to other brands.
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -151,13 +156,14 @@ Contributions are what make the open source community such an amazing place to l
 
 For any bugs, issues, additional features, please open an [issue](https://github.com/SeifAbdElrhman/T-Motor-Controller/issues) on github with a detailed description and a proper Tag. Or feel free to [contact](#contact) the developers of the project directly
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact
@@ -170,24 +176,24 @@ Sherif Nafee- [@Sh1co](https://t.me/Sh1co) - s.nafee@innopolis.university
 
 Project Link: [https://github.com/SeifAbdElrhman/T-Motor-Controller](https://github.com/SeifAbdElrhman/T-Motor-Controller)
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
 * Thanks to Simeon Nedelchev for his amazing control Library - [rPyControl](https://github.com/SimkaNed/rPyControl)
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/SeifAbdElrhman/repo.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
 [contributors-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/graphs/contributors
-[stars-shield]: https://img.shields.io/github/stars/SeifAbdElrhman/repo.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
 [stars-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/stargazers
-[issues-shield]: https://img.shields.io/github/issues/SeifAbdElrhman/repo.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
 [issues-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/issues
-[license-shield]: https://img.shields.io/github/license/SeifAbdElrhman/repo.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/SeifAbdElrhman/T-Motor-Controller.svg?style=for-the-badge
 [license-url]: https://github.com/SeifAbdElrhman/T-Motor-Controller/blob/master/LICENSE.txt
