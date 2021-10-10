@@ -1,8 +1,8 @@
 ## Requirement Engineering
-All the feature requirements are avaliable in the [requirements.md](documentation/requirements.md) file, the file contains all the Functional and Non-Functional requirements along with corresponding User Stories.  
+All the feature requirements are avaliable in the [requirements.md](/documentation/requirements.md) file, the file contains all the Functional and Non-Functional requirements along with corresponding User Stories.  
 
 ## Glossary
-You can check the meaning of all technical terms used [here](documentation/glossary.md), and feel free to suggest any additions to our glossary or the documentation in general through the [issues](https://github.com/SeifAbdElrhman/T-Motor-Controller/issues) tab by opening a new issue with proper description and tag.  
+You can check the meaning of all technical terms used [here](/documentation/glossary.md), and feel free to suggest any additions to our glossary or the documentation in general through the [issues](https://github.com/SeifAbdElrhman/T-Motor-Controller/issues) tab by opening a new issue with proper description and tag.  
 
 ## Design 
 * The following **UML diagram** descibes our **Class structure** with main focus on dependencies.  
